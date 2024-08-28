@@ -1,9 +1,9 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase';
 
-const Login = () => {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -11,41 +11,39 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigate('/success');
-    } catch (err) {
-      setError('Error al iniciar sesión: ' + err.message);
+      navigate('/success'); // Redirige a la vista de inicio de sesión exitoso
+    } catch (error) {
+      setError('Error al iniciar sesión: ' + error.message);
     }
   };
 
   return (
     <div>
       <h2>Iniciar Sesión</h2>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
       <form onSubmit={handleLogin}>
-        <div>
-          <label>Correo:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label>Contraseña:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
+        <input
+          type="email"
+          placeholder="Correo electrónico"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <button type="submit">Iniciar Sesión</button>
       </form>
-      {error && <p>{error}</p>}
+      <p>
+        ¿No tienes una cuenta? <Link to="/register">Registrar Usuario</Link>
+      </p>
     </div>
   );
-};
+}
 
 export default Login;
