@@ -1,7 +1,8 @@
 import { signInWithEmailAndPassword } from 'firebase/auth';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { auth } from '../firebase';
+import { auth, db } from '../firebase'; // Asegúrate de que `db` esté importado
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -13,8 +14,32 @@ function Login() {
     e.preventDefault();
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate('/success'); // Redirige a la vista de inicio de sesión exitoso
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Array con las colecciones que queremos buscar
+      const collections = ['Usuario', 'Admin'];
+
+      let found = false;
+
+      for (const col of collections) {
+        const q = query(collection(db, col), where('correo', '==', email));
+        const querySnapshot = await getDocs(q);
+
+        querySnapshot.forEach((doc) => {
+          const userData = doc.data();
+          if (userData.rol === 'ADMINISTRADOR') {
+            navigate('/admin'); // Redirige a la vista de administrador
+            found = true;
+          }
+        });
+
+        if (found) break;
+      }
+
+      if (!found) {
+        navigate('/success'); // Si no se encontró rol o no es ADMINISTRADOR, redirige a success
+      }
     } catch (error) {
       setError('Error al iniciar sesión: ' + error.message);
     }

@@ -1,60 +1,56 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { auth, db } from '../firebase';
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth, db } from "../firebase"; // Asegúrate de importar correctamente 'auth' y 'db'
 
-function Register() {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [dni, setDni] = useState('');
-  const [phone, setPhone] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [error, setError] = useState('');
+const Register = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [name, setName] = useState("");
+  const [DNI, setDNI] = useState("");
+  const [phone, setPhone] = useState("");
+  const [error, setError] = useState("");
+
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setError("");
 
-    // Validar formulario
-    if (!name || !email || !dni || !phone || !password || !confirmPassword) {
-      setError('Por favor, complete todos los campos');
+    if (password !== confirmPassword) {
+      setError("Las contraseñas no coinciden.");
       return;
     }
 
     if (password.length < 8) {
-      setError('La contraseña debe tener al menos 8 caracteres');
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError('Las contraseñas no coinciden');
+      setError("La contraseña debe tener al menos 8 caracteres.");
       return;
     }
 
     try {
-      // Crear usuario en Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Guardar información del usuario en Firestore Database
-      await setDoc(doc(db, 'Usuario', user.uid), {
-        uid: user.uid,
-        name,
-        email,
-        dni,
-        phone,
+      // Guardar los datos del usuario en Firestore con los nombres de campo personalizados
+      await setDoc(doc(db, "Usuario", user.uid), {
+        DNI: DNI,
+        correo: email,
+        nombre: name,
+        telefono: phone,
+        contraseña: password, // Guardar la contraseña tal como se pidió
       });
 
-      // Redirigir a la vista de login
-      navigate('/');
+      // Redirigir a la vista de login después del registro exitoso
+      navigate("/login");
     } catch (error) {
-      // Manejar errores específicos
-      if (error.code === 'auth/email-already-in-use') {
-        setError('El correo electrónico ya está en uso. Intente con otro.');
+      if (error.code === "auth/email-already-in-use") {
+        setError("El correo ya está registrado.");
+      } else if (error.code === "auth/weak-password") {
+        setError("La contraseña es demasiado débil.");
       } else {
-        setError('Error al registrar: ' + error.message);
+        setError("Error al registrar: " + error.message);
       }
     }
   };
@@ -62,48 +58,54 @@ function Register() {
   return (
     <div>
       <h2>Registrar Usuario</h2>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
       <form onSubmit={handleRegister}>
         <input
           type="text"
           placeholder="Nombre"
           value={name}
           onChange={(e) => setName(e.target.value)}
+          required
         />
         <input
           type="email"
-          placeholder="Correo electrónico"
+          placeholder="Correo"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
+          required
         />
         <input
           type="text"
           placeholder="DNI"
-          value={dni}
-          onChange={(e) => setDni(e.target.value)}
+          value={DNI}
+          onChange={(e) => setDNI(e.target.value)}
+          required
         />
         <input
-          type="text"
+          type="tel"
           placeholder="Teléfono"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          required
         />
         <input
           type="password"
           placeholder="Contraseña"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          required
         />
         <input
           type="password"
-          placeholder="Confirmar Contraseña"
+          placeholder="Confirma Contraseña"
           value={confirmPassword}
           onChange={(e) => setConfirmPassword(e.target.value)}
+          required
         />
         <button type="submit">Registrar</button>
       </form>
     </div>
   );
-}
+};
 
 export default Register;

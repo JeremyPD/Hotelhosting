@@ -1,12 +1,12 @@
 import React from 'react';
 
-const Success = () => {
+function Success() {
   return (
     <div>
-      <h2>Inicio de Sesión Exitoso</h2>
-      <p>¡Has iniciado sesión con éxito!</p>
+      <h2>Inicio de sesión exitoso</h2>
+      <p>Bienvenido, has iniciado sesión correctamente.</p>
     </div>
   );
-};
+}
 
 export default Success;
