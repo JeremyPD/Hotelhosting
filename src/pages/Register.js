@@ -2,7 +2,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../firebase"; // Asegúrate de importar correctamente 'auth' y 'db'
+import { auth, db } from "../firebase";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -33,16 +33,14 @@ const Register = () => {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Guardar los datos del usuario en Firestore con los nombres de campo personalizados
       await setDoc(doc(db, "Usuario", user.uid), {
         DNI: DNI,
         correo: email,
         nombre: name,
         telefono: phone,
-        contraseña: password, // Guardar la contraseña tal como se pidió
+        contraseña: password,
       });
 
-      // Redirigir a la vista de login después del registro exitoso
       navigate("/login");
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {

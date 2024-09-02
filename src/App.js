@@ -2,6 +2,7 @@ import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Admin from './pages/Admin';
 import Admin_Register from './pages/Admin_Register';
+import Habitacion_Register from './pages/Habitacion_Register';
 import Home from "./pages/Home";
 import Login from './pages/Login';
 import Register from './pages/Register';
@@ -17,6 +18,7 @@ function App() {
       <Route path="/admin" element={<Admin />} />
       <Route path="/success" element={<Success />} />
       <Route path="/admin_register" element={<Admin_Register />} />
+      <Route path="/habitacion_register" element={<Habitacion_Register />} />
     </Routes>
   );
 }

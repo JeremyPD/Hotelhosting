@@ -10,6 +10,10 @@ function Admin() {
       <Link to="/admin_register">
         <button>Registrar Nuevo Administrador</button>
       </Link>
+
+      <Link to="/habitacion_register">
+        <button>Crear Habitación</button>
+      </Link>
     </div>
   );
 }

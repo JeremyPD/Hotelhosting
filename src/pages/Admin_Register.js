@@ -9,7 +9,7 @@ function Admin_Register() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [role, setRole] = useState('ADMINISTRADOR'); // Rol predefinido como ADMINISTRADOR
+  const [role, setRole] = useState('ADMINISTRADOR'); 
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
@@ -17,20 +17,18 @@ function Admin_Register() {
     e.preventDefault();
 
     try {
-      // Crear un nuevo usuario en Firebase Authentication
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Guardar los datos en la colección "Admin" en Firestore
       await addDoc(collection(db, 'Admin'), {
         DNI: dni,
         nombre: name,
         correo: email,
-        contraseña: password, // Recuerda: nunca guardes contraseñas en texto plano en producción
+        contraseña: password,
         rol: role,
       });
 
-      navigate('/admin'); // Redirigir a la vista de Admin después de registrar un nuevo admin
+      navigate('/admin'); 
     } catch (error) {
       setError('Error al registrar: ' + error.message);
     }
