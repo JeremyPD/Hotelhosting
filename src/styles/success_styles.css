@@ -1,0 +1,24 @@
+.success-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f4f8;
+    color: #333;
+  }
+  
+  .success-title {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #4caf50;
+  }
+  
+  .success-message {
+    font-size: 1.2rem;
+    color: #555;
+    text-align: center;
+    max-width: 80%;
+    line-height: 1.5;
+  }
+  

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Admin from './pages/Admin';
-import Admin_Register from './pages/Admin_Register';
-import Habitacion_Register from './pages/Habitacion_Register';
-import Home from "./pages/Home";
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Success from './pages/Success';
+import Admin from './components/Admin';
+import Admin_Register from './components/Admin_Register';
+import Habitacion_Register from './components/Habitacion_Register';
+import Home from "./components/Home";
+import Login from './components/Login';
+import Register from './components/Register';
+import Success from './components/Success';
 
 function App() {
   return (
