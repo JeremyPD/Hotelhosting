@@ -14,6 +14,10 @@ function Admin() {
       <Link to="/habitacion_register">
         <button>Crear Habitación</button>
       </Link>
+
+      <Link to="/informes">
+        <button>Informes</button>
+      </Link>
     </div>
   );
 }
