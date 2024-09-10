@@ -7,6 +7,7 @@ import Home from './components/Home.js';
 import Informes from './components/Informes.js';
 import Login from './components/Login.js';
 import Register from './components/Register.js';
+import Scanner from './components/Scanner.js';
 import Success from './components/Success.js';
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
       <Route path="/admin" element={<Admin />} />
       <Route path="/informes" element={<Informes />} />
       <Route path="/success" element={<Success />} />
+      <Route path="/scanner" element={< Scanner />} />
       <Route path="/admin_register" element={<Admin_Register />} />
       <Route path="/habitacion_register" element={<Habitacion_Register />} />
     </Routes>

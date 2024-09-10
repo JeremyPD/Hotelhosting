@@ -133,7 +133,6 @@ function Informes() {
         </div>
       )}
 
-      {/* Mostrar los administradores filtrados */}
       {mostrar === 'administradores' && administradoresFiltrados.length > 0 && (
         <div>
           <h3>Administradores Registrados</h3>
@@ -142,14 +141,13 @@ function Informes() {
               <li key={admin.id}>
                 <strong>Nombre:</strong> {admin.nombre || "Sin nombre"} <br />
                 <strong>Correo:</strong> {admin.correo || "Sin correo"} <br />
-                <strong>Rol:</strong> {admin.rol || "Sin rol"} <br />
+                <strong>DNI:</strong> {admin.DNI || "Sin rol"} <br />
               </li>
             ))}
           </ul>
         </div>
       )}
 
-      {/* Mensajes si no se encuentran datos */}
       {!loading && mostrar === 'usuarios' && usuariosFiltrados.length === 0 && <p>No se encontraron usuarios que coincidan con la búsqueda.</p>}
       {!loading && mostrar === 'habitaciones' && habitacionesFiltradas.length === 0 && <p>No se encontraron habitaciones que coincidan con la búsqueda.</p>}
       {!loading && mostrar === 'administradores' && administradoresFiltrados.length === 0 && <p>No se encontraron administradores que coincidan con la búsqueda.</p>}

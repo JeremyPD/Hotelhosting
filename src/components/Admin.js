@@ -18,6 +18,10 @@ function Admin() {
       <Link to="/informes">
         <button>Informes</button>
       </Link>
+
+      <Link to="/scanner">
+        <button>Escanear archivo</button>
+      </Link>
     </div>
   );
 }
